@@ -2,6 +2,7 @@
 
 // File taken from https://github.com/FormidableLabs/prism-react-renderer/issues/54
 
+import duotoneLight from 'prism-react-renderer/themes/duotoneLight';
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -81,6 +82,14 @@ const RelativeDiv = styled.div`
   position: relative;
   isolation: isolate;
 `;
+
+const darkOrLight = () => {
+  if (typeof window === 'undefined') {
+    return window.localStorage.getItem('guide:userData:theme') === '"dark"'
+      ? vsDark
+      : duotoneLight;
+  }
+};
 
 const CodeSnipButton = ({
   snipID,
@@ -355,7 +364,7 @@ class CodeBlock extends React.Component<
           Prism={Prism as any}
           code={code}
           language={language}
-          theme={vsDark}
+          theme={darkOrLight()}
         >
           {({ className, style, tokens, getLineProps, getTokenProps }) => (
             <div className="gatsby-highlight" data-language={language}>
